@@ -4,7 +4,6 @@ from datetime import timedelta
 from .models import DriverLog
 from .serializers import DriverLogSerializer
 
-
 class WorkingTimeView(generics.RetrieveAPIView):
     serializer_class = DriverLogSerializer
 
@@ -18,6 +17,7 @@ class WorkingTimeView(generics.RetrieveAPIView):
         queryset = self.get_queryset()
 
         total_working_time = timedelta()
+        total_rest_time = timedelta()
         total_off_time = timedelta()
 
         last_log = None
@@ -29,11 +29,14 @@ class WorkingTimeView(generics.RetrieveAPIView):
                     total_working_time += time_difference
                 elif last_log.status == 'OFF':
                     total_off_time += time_difference
+                elif last_log.status == 'отдыхал':
+                    total_rest_time += time_difference
 
             last_log = log
 
         result = {
             'working_time': str(total_working_time),
+            'rest_time': str(total_rest_time),
             'off_time': str(total_off_time)
         }
 

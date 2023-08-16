@@ -5,6 +5,7 @@ class DriverLog(models.Model):
     STATUS_CHOICES = [
         ('OFF', 'OFF'),
         ('работает', 'работает'),
+        ('отдыхал', 'отдыхал')
     ]
 
     company_id = models.IntegerField()
